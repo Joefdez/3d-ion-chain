@@ -179,7 +179,7 @@ module support_functions_threed
 
     JJintx = 0.0d0
     JJinty = 0.0d0
-
+    JJintz = 0.0d0
 
 
     do nn=1, nparticles, 1

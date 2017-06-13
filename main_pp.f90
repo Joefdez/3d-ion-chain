@@ -139,7 +139,7 @@ program threeDChain
     JJiy = 0.0d0
     JJiz = 0.0d0
     call icpgen(nparticles, 0.005d0, xx0, yy0, zz0, xxold, yyold, zzold)
-    call icmomgen(nparticles, initSpeed, ppxold, ppyold, ppzold)
+    !call icmomgen(nparticles, initSpeed, ppxold, ppyold, ppzold)
     call ranseed()
 !   JJix_av  = 0.0d0
 !   JJiy_av = 0.0d0
