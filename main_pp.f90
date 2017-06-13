@@ -263,7 +263,7 @@ program twoDChain
      call mpi_reduce(JJiz_av, JJiz_avt, 1, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
      !call mpi_reduce(xx2_av, xx2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
      !call mpi_reduce(yy2_av, yy2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
-     call mpi_reduce(xx_av, xx_avt, (nsteps-fin), mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
+!     call mpi_reduce(xx_av, xx_avt, (nsteps-fin), mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
      call mpi_reduce(ppx2_av, ppx2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
      call mpi_reduce(ppy2_av, ppy2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
      call mpi_reduce(ppz2_av, ppz2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
@@ -297,11 +297,11 @@ program twoDChain
       end do
       close(unit=11)
       close(unit=12)
-      open(unit=13, file="posXav.dat")
-      do jj=1, nparticles, 1
-        write(13,*) xx_av/traj
-      end do
-      close(unit=13)
+!      open(unit=13, file="posXav.dat")
+!     do jj=1, nparticles, 1
+!        write(13,*) xx_av/traj
+!      end do
+!      close(unit=13)
      end if
      !xx2_avt  = 0.0d0
      !yy2_avt  = 0.0d0
@@ -335,7 +335,7 @@ program twoDChain
   call mpi_reduce(JJiz_av, JJiz_avt, 1, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
   !call mpi_reduce(xx2_av, xx2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
   !call mpi_reduce(yy2_av, yy2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
-  call mpi_reduce(xx_av, xx_avt, (nsteps-fin), mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
+!  call mpi_reduce(xx_av, xx_avt, (nsteps-fin), mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
   call mpi_reduce(ppx2_av, ppx2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
   call mpi_reduce(ppy2_av, ppy2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
   call mpi_reduce(ppz2_av, ppz2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
@@ -380,10 +380,10 @@ program twoDChain
     end do
     close(unit=11)
     close(unit=12)
-    do jj=1, nparticles, 1
-      write(13,*) xx_av/traj
-    end do
-    close(unit=13)
+ !   do jj=1, nparticles, 1
+  !    write(13,*) xx_av/traj
+   ! end do
+   ! close(unit=13)
     print*, "Writing FINAL results to files after ", traj , "trajectories."
     seconds1 = mpi_wtime() - seconds1
     print*, "integration + message + write time:", seconds1
