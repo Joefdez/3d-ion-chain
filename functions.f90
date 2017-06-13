@@ -1,4 +1,4 @@
-module support_functions_twod
+module support_functions_threed
   use randomModule
   implicit none
   contains
@@ -197,4 +197,4 @@ module support_functions_twod
 
   end subroutine current_Flux
 
-end module support_functions_twod
+end module support_functions_threed

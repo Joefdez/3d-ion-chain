@@ -1,11 +1,11 @@
-program twoDChain
+program threeDChain
 
   use mpi
   use constants
   use initcond_generator
   use initialization
   use randomModule
-  use support_functions_twod
+  use support_functions_threed
 
   implicit none
 
@@ -138,7 +138,7 @@ program twoDChain
     JJix = 0.0d0
     JJiy = 0.0d0
     JJiz = 0.0d0
-    call icpgen(nparticles, 0.02d0, xx0, yy0, zz0, xxold, yyold, zzold)
+    call icpgen(nparticles, 0.005d0, xx0, yy0, zz0, xxold, yyold, zzold)
     call icmomgen(nparticles, initSpeed, ppxold, ppyold, ppzold)
     call ranseed()
 !   JJix_av  = 0.0d0
@@ -147,18 +147,19 @@ program twoDChain
       call coulombM(nparticles, xxold, yyold, zzold, fx1, fy1, fz1, invD1)
       fx = 0.0d0
       fy = 0.0d0
+      fz = 0.0d0
       do jj=1, nparticles, 1
         fx(jj) = sum(fx1(jj,:), 1)
         fy(jj) = sum(fy1(jj,:), 1)
         fz(jj) = sum(fz1(jj,:), 1)
       end do
-      call vecA(xxold, yyold, zzold, ppxold, ppyold, zzold, fx, fy, fz,&
+      call vecA(xxold, yyold, zzold, ppxold, ppyold, ppzold, fx, fy, fz,&
                 alphay, alphaz, aeta1, aeta2, aetaC, nbath, nparticles, Axx, Ayy, Azz, Apx, Apy, Apz)
       call vecB_edges(dst, nparticles, dOmx, dOmy, dOmz)
       !call vecB_cool(dst, nparticles, dOmxc, dOmyc)
-      xxi = xxold + Axx*dt
-      yyi = yyold + Ayy*dt
-      zzi = zzold + Azz*dt
+      xxi  = xxold + Axx*dt
+      yyi  = yyold + Ayy*dt
+      zzi  = zzold + Azz*dt
       ppxi = ppxold + Apx*dt  + stermsBx*dOmx !+ stermsCx*dOmxc
       ppyi = ppyold + Apy*dt  + stermsBy*dOmy !+ stermsCy*dOmyc
       ppzi = ppzold + Apz*dt  + stermsBz*dOmz !+ stermsCy*dOmyc
@@ -392,4 +393,4 @@ program twoDChain
   call mpi_finalize(ierr)
 
 
-end program twoDChain
+end program threeDChain
