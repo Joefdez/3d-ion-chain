@@ -1,0 +1,11 @@
+n_particles 30
+mass1 23.98d0
+charge1 1.0d0
+dt 1.0d-3
+tt 10.0d0
+traj 5
+alphay 15.0d0
+alphaz 15.0d0
+icradius 0.1
+long_freq 50.0d3
+save_freq 1000

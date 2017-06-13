@@ -1,0 +1,6 @@
+detuning_left -0.02d0
+detuning_right -0.1d0
+linewidth 41.2960d6
+target_frequency 1069.0d12
+intensity_left 0.08
+intensity_right 0.08
