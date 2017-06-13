@@ -16,7 +16,7 @@ module support_functions_twod
     do ii=1, nparticles, 1
       do jj=ii+1, nparticles, 1
         dist = 0.0d0
-        dist = sqrt( (xx(ii)-xx(jj))**2 + (yy(ii)-yy(jj))**2 +(zz(ii)-z(jj))**2)
+        dist = sqrt( (xx(ii)-xx(jj))**2 + (yy(ii)-yy(jj))**2 +(zz(ii)-zz(jj))**2)
         dist = dist*dist*dist
         fx(ii) = fx(ii) +  (xx(ii)-xx(jj)) / dist
         fx(jj) = fx(jj) -  (xx(ii)-xx(jj)) / dist
@@ -58,12 +58,13 @@ module support_functions_twod
 
   end subroutine coulombM
 
-  subroutine vecA(xx, yy, zz, ppx, ppy, ppz, cfx, cfy, cfz, alphay, alphaz, eta1, eta2, etaC, nbath, nparticles, Axx, Ayy, Azz, Apx, Apy, Apz)
+  subroutine vecA(xx, yy, zz, ppx, ppy, ppz, cfx, cfy, cfz, &
+                  alphay, alphaz, eta1, eta2, etaC, nbath, nparticles, Axx, Ayy, Azz, Apx, Apy, Apz)
 
     implicit none
     real(kind=8), dimension(:), intent(in)              :: xx, yy, zz, ppx, ppy, ppz
     real(kind=8), dimension(:), intent(in)              :: cfx, cfy, cfz
-    real(kind=8), intent(in)                            :: alpha, eta1, eta2, etaC
+    real(kind=8), intent(in)                            :: alphay, alphaz, eta1, eta2, etaC
     integer, intent(in)                                 :: nparticles, nbath
     real(kind=8), dimension(:), intent(inout)           :: Axx, Ayy, Azz, Apx, Apy, Apz
 
@@ -133,7 +134,7 @@ module support_functions_twod
   subroutine local_energy(nparticles, alphay, alphaz, xx, yy, zz, invD, ppx, ppy, ppz, energy)
     implicit none
     integer, intent(in)                                   :: nparticles
-    real(kind=8), intent(in)                              :: alpha
+    real(kind=8), intent(in)                              :: alphay, alphaz
     real(kind=8), dimension(:), intent(in)                :: xx, yy, zz, ppx, ppy, ppz
     real(kind=8), dimension(:,:), intent(in)              :: invD
     real(kind=8), dimension(:), intent(inout)             :: energy

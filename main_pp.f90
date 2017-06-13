@@ -98,7 +98,7 @@ program twoDChain
 
   stermsCx = sqrt(2.0d0*aDc)
   stermsCy = sqrt(2.0d0*aDc)
-  stermszy = sqrt(2.0d0*aDc)
+  stermsCz = sqrt(2.0d0*aDc)
   stermsBx(1:nbath) = sqrt(2.0d0*aD1)
   stermsBy(1:nbath) = sqrt(2.0d0*aD1)
   stermsBz(1:nbath) = sqrt(2.0d0*aD1)
@@ -144,7 +144,7 @@ program twoDChain
 !   JJix_av  = 0.0d0
 !   JJiy_av = 0.0d0
     do ii=1, nsteps, 1
-      call coulombM(nparticles, xxold, yyold, zzold, fx1, fy1, invD1)
+      call coulombM(nparticles, xxold, yyold, zzold, fx1, fy1, fz1, invD1)
       fx = 0.0d0
       fy = 0.0d0
       do jj=1, nparticles, 1
@@ -152,7 +152,8 @@ program twoDChain
         fy(jj) = sum(fy1(jj,:), 1)
         fz(jj) = sum(fz1(jj,:), 1)
       end do
-      call vecA(xxold, yyold, zzold, ppxold, ppyold, zzold, fx, fy, fz, alpha, aeta1, aeta2, aetaC, nbath, nparticles, Axx, Ayy, Azz, Apx, Apy, Azy)
+      call vecA(xxold, yyold, zzold, ppxold, ppyold, zzold, fx, fy, fz,&
+                alphay, alphaz, aeta1, aeta2, aetaC, nbath, nparticles, Axx, Ayy, Azz, Apx, Apy, Apz)
       call vecB_edges(dst, nparticles, dOmx, dOmy, dOmz)
       !call vecB_cool(dst, nparticles, dOmxc, dOmyc)
       xxi = xxold + Axx*dt
@@ -170,7 +171,8 @@ program twoDChain
         fy(jj) = sum(fy2(jj,:), 1)
         fz(jj) = sum(fz2(jj,:), 1)
       end do
-      call vecA(xxi, yyi, zzi, ppxi, ppyi, ppzi, fx, fy, fz, alpha, aeta1, aeta2, aetaC, nbath, nparticles, Axxi, Ayyi, Azzi, Apxi, Apyi, Apzi)
+      call vecA(xxi, yyi, zzi, ppxi, ppyi, ppzi, fx, fy, fz,&
+                alphay, alphaz, aeta1, aeta2, aetaC, nbath, nparticles, Axxi, Ayyi, Azzi, Apxi, Apyi, Apzi)
       xxnew   = xxold + 0.5d0*(Axx + Axxi)*dt
       yynew   = yyold + 0.5d0*(Ayy + Ayyi)*dt
       zznew   = zzold + 0.5d0*(Azz + Azzi)*dt
@@ -191,8 +193,8 @@ program twoDChain
       if( ii .gt. fin) then
           xxs(:,mm)   = xxnew
           yys(:,mm)   = yynew
-          zzs(:,mm)
-          call local_energy(nparticles, alpha, xxold, yyold, zzold, invD1, ppxold, ppyold, ppzold, energy)
+          zzs(:,mm)   = zznew
+          call local_energy(nparticles, alphay, alphaz, xxold, yyold, zzold, invD1, ppxold, ppyold, ppzold, energy)
           call heat_current(nparticles, fx1, fy1, fz1, ppxold, ppyold, ppzold, hc)
           call current_Flux(hc, energy, xxold, yyold, zzold, ppxold, ppyold, ppzold, nparticles, JJix, JJiy, JJiz)
           JJix_av = JJix_av + JJix/(nsteps-fin-1)
@@ -240,6 +242,7 @@ program twoDChain
     xpx_av  = (xpx_av + xpxs)
     ypy_av  = (ypy_av + ypys)
     zpz_av  = (zpz_av + zpzs)
+    xx_av =   (xx_av + xxs)
     if( ( mod(kk,5) .eq. 0) .and. (kk .lt. local_traj) ) then
      print*, "Writing PARTIAL results to files after ", kk, "trajectories."
      errJJix = 0.0d0
@@ -260,6 +263,7 @@ program twoDChain
      call mpi_reduce(JJiz_av, JJiz_avt, 1, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
      !call mpi_reduce(xx2_av, xx2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
      !call mpi_reduce(yy2_av, yy2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
+     call mpi_reduce(xx_av, xx_avt, (nsteps-fin), mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
      call mpi_reduce(ppx2_av, ppx2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
      call mpi_reduce(ppy2_av, ppy2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
      call mpi_reduce(ppz2_av, ppz2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
@@ -293,6 +297,11 @@ program twoDChain
       end do
       close(unit=11)
       close(unit=12)
+      open(unit=13, file="posXav.dat")
+      do jj=1, nparticles, 1
+        write(13,*) xx_av/traj
+      end do
+      close(unit=13)
      end if
      !xx2_avt  = 0.0d0
      !yy2_avt  = 0.0d0
@@ -326,6 +335,7 @@ program twoDChain
   call mpi_reduce(JJiz_av, JJiz_avt, 1, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
   !call mpi_reduce(xx2_av, xx2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
   !call mpi_reduce(yy2_av, yy2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
+  call mpi_reduce(xx_av, xx_avt, (nsteps-fin), mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
   call mpi_reduce(ppx2_av, ppx2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
   call mpi_reduce(ppy2_av, ppy2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
   call mpi_reduce(ppz2_av, ppz2_avt, n_elems, mpi_double_precision, mpi_sum, 0, mpi_comm_world, ierr)
@@ -370,6 +380,10 @@ program twoDChain
     end do
     close(unit=11)
     close(unit=12)
+    do jj=1, nparticles, 1
+      write(13,*) xx_av/traj
+    end do
+    close(unit=13)
     print*, "Writing FINAL results to files after ", traj , "trajectories."
     seconds1 = mpi_wtime() - seconds1
     print*, "integration + message + write time:", seconds1

@@ -14,7 +14,7 @@ real(kind=8), dimension(:,:), allocatable             :: xx_avo, yy_avo, zz_avo,
 real(kind=8), dimension(:,:), allocatable             :: xx2_avo, yy2_avo, zz2_avo, ppx2_avo, ppy2_avo, ppz2_avo
 real(kind=8), dimension(:,:), allocatable             :: xPx_av, yPy_av, zpz_av
 real(kind=8), dimension(:,:), allocatable             :: xPx_avo, yPy_avo, zpz_avo
-real(kind=8), dimension(:), allocatable               :: xxi, yyi, ppxi, ppyi, ppzi
+real(kind=8), dimension(:), allocatable               :: xxi, yyi, zzi, ppxi, ppyi, ppzi
 real(kind=8), dimension(:,:), allocatable             :: fx1, fy1, fz1, fx2, fy2, fz2
 real(kind=8), dimension(:), allocatable               :: fx, fy, fz
 real(kind=8), dimension(:), allocatable               :: Axx, Axxi, Ayy, Ayyi, Azz, Azzi
@@ -23,7 +23,7 @@ real(kind=8), dimension(:), allocatable               :: dOmx, dOmy, dOmz, dOmxc
 real(kind=8), dimension(:), allocatable               :: stermsBx, stermsCx, stermsBy, stermsCy, stermsBz, stermsCz
 
 real(kind=8)                                          :: tt, dt, dst, mass, charge, dist
-real(kind=8)                                          :: alpha, char_length, long_freq
+real(kind=8)                                          :: alphay, alphaz, char_length, long_freq
 real(kind=8)                                          :: del1, del2, delC
 real(kind=8)                                          :: omega0, omega1, omega2, omegaC
 real(kind=8)                                          :: I1, I2, IC
@@ -44,7 +44,7 @@ real(kind=8), dimension(:), allocatable               :: JJix_s, JJiy_s, JJiz_s
 real(kind=8), dimension(:), allocatable               :: hcx, hcy, hcz, hcx_av, hcy_av, hcz_av, hcx_avt, hcy_avt, hcz_avt
 real(kind=8), dimension(:,:), allocatable             :: hc
 real(kind=8), dimension(:,:), allocatable             :: invD1, invD2
-real(kind=8)                                          :: JJix_av, JJiy_av, JJiz_avt, JJix_avt, JJiy_avt, JJiz_avt
+real(kind=8)                                          :: JJix_av, JJiy_av, JJiz_av, JJix_avt, JJiy_avt, JJiz_avt
 real(kind=8), dimension(:), allocatable               :: JJix_av_v, JJiy_av_v, JJiz_av_v
 real(kind=8)                                          :: errJJix, errJJiy, errJJiz, errJJix_t, errJJiy_t, errJJiz_t
 

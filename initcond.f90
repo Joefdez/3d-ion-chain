@@ -37,7 +37,7 @@ module initcond_generator
      ! Introduce uniform noise in equilibrum positions. Requieres file containing equilibrium positions.
      ! Data in file must be columnwise
      implicit none
-     real(kind=8), dimension(:), intent(inout)  :: px, py
+     real(kind=8), dimension(:), intent(inout)  :: px, py, pz
      integer, intent(in)                        :: n_particles
      real(kind=8), intent(in)                   :: speed
      integer                                    :: ii
