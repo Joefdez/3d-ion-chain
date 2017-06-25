@@ -33,15 +33,11 @@ del xx
 del yy
 del zz
 
-xxs.sort()
-
-
-
 chain = figure("chain")
 axes = chain.add_subplot(111, projection="3d")
 axes.plot(xxs, yys, zzs, '.', markersize=13)
 
-
+xxs.sort()
 print("Loading ion temperature profiles.")
 temps=loadtxt("temperatures.dat")
 print("Calculating temperature profile")
@@ -67,8 +63,8 @@ axt.set_ylim([tb, th])
 axt.set_xlabel(r'$x$ ($scaled\, units$)', fontsize=22)
 axt.set_ylabel(r'$T$ ($mK$)', fontsize=22)
 axt.tick_params(labelsize=11)
-axt.axvspan(-6., -4., facecolor='r', alpha=0.75)
-axt.axvspan(4., 6., facecolor='c', alpha=0.75)
+axt.axvspan(-6., 0.5*(xxs[1]+xxs[2])), facecolor='r', alpha=0.75)
+axt.axvspan(0.5*(xxs[26]+xxs[27]), 6., facecolor='c', alpha=0.75)
 axt.plot(xxs, tf, 'b')
 axt.plot(xxs, tf, 'b.', markersize=11)
 axt = temp.add_subplot(111)
