@@ -35,7 +35,7 @@ del zz
 
 chain = figure("chain")
 axes = chain.add_subplot(111, projection="3d")
-axes.plot(xxs, yys, zzs, '.', markersize=13)
+axes.plot(xxs, yys, zzs, '.', markersize=12)
 
 xxs.sort()
 print("Loading ion temperature profiles.")
