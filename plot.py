@@ -35,8 +35,9 @@ del zz
 
 chain = figure("chain")
 axes = chain.add_subplot(111, projection="3d")
-axes.plot(xxs, yys, zzs, '.', markersize=9)
-
+axes.plot(xxs, yys, zzs, '.', markersize=12)
+axes.set_ylim([-1.,1.])
+axes.set_zlim([-1.,1.])
 xxs.sort()
 print("Loading ion temperature profiles.")
 temps=loadtxt("temperatures.dat")
@@ -72,3 +73,26 @@ axt.set_xlim([txl, txr])
 axt.set_ylim([tb, th])
 axt.plot(xxs, tf) # Plot temperature in mK
 
+"""
+
+print("Making plot with inset")
+
+ins, inax1 = subplots()
+
+left, bottom, width, height = [2 , 5, 5.5, 8]
+inax2 = ins.axes([left, bottom, width, height])
+
+inax1.set_xlim([txl, txr])
+inax1.set_ylim([3, 9])
+inax1.set_xlabel(r'x (scaled units)', fontsize=15)
+inax1.set_ylabel(r'T (mK)', fontsize=15)
+inax1.tick_params(labelsize=11)
+inax1.axvspan(-6., -4., facecolor='r', alpha=0.75)
+inax1.axvspan(4., 6., facecolor='c', alpha=0.75)
+inax1.plot(xxs, tf, 'b')
+inax1.plot(xxs, tf, 'b.', markersize=11)
+inax2.imshow(H, origin='low',
+            extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]])
+
+
+"""
