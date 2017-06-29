@@ -35,7 +35,7 @@ del zz
 
 chain = figure("chain")
 axes = chain.add_subplot(111, projection="3d")
-axes.plot(xxs, yys, zzs, '.', markersize=12)
+axes.plot(xxs, yys, zzs, '.', markersize=9)
 axes.set_ylim([-1.,1.])
 axes.set_zlim([-1.,1.])
 xxs.sort()
