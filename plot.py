@@ -46,7 +46,7 @@ tf = zeros(30)
 ns = shape(temps)
 ns = 0.2*ns[1]
 for ii in range(30):
-    tf[ii] = mean(temps[ii,-ns:])/3.
+    tf[ii] = mean(temps[ii,-ns:])*2./3.
 tf = 1000*tf
 
 print("Plotting temperature profile.")
